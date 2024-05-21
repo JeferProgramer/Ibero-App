@@ -134,12 +134,12 @@
 
     <ImageView
         android:id="@+id/nextBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="120dp"
+        android:layout_height="90dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="12dp"
-        android:src="@drawable/btn"
-        app:layout_constraintEnd_toEndOf="@id/cardView2"
+        android:src="@drawable/btn2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView2" />
 
 
