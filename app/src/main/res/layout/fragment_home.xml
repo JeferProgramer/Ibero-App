@@ -17,6 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/createMemoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/inter_extra_bold"
+        android:text="Create a new Memo"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/addTaskBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/addTaskBtn"
         android:layout_width="50dp"
@@ -24,19 +37,6 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_baseline_add_"
-        app:layout_constraintEnd_toStartOf="@+id/createMemoTextView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/createMemoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:fontFamily="@font/inter_extra_bold"
-        android:text="Create a new Memo"
-        android:textColor="@color/white"
-        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
