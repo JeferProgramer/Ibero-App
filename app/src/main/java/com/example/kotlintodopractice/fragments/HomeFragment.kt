@@ -1,13 +1,18 @@
 package com.example.kotlintodopractice.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kotlintodopractice.R
 import com.example.kotlintodopractice.databinding.FragmentHomeBinding
 import com.example.kotlintodopractice.utils.adapter.TaskAdapter
 import com.example.kotlintodopractice.utils.model.ToDoData
@@ -25,6 +30,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var navController: NavController
     private lateinit var database: DatabaseReference
     private var frag: ToDoDialogFragment? = null
     private lateinit var auth: FirebaseAuth
@@ -37,23 +43,22 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
 
         init()
 
-        Log.d(TAG, "Inicializando HomeFragment")
+        Log.d(TAG, "Initializing HomeFragment")
 
-        //get data from firebase
-        getTaskFromFirebase()
+        getTasksFromFirebase()
 
         binding.addTaskBtn.setOnClickListener {
-            Log.d(TAG, "Abriendo diálogo para agregar tarea")
+            Log.d(TAG, "Opening dialog to add task")
             if (frag != null)
                 childFragmentManager.beginTransaction().remove(frag!!).commit()
             frag = ToDoDialogFragment()
@@ -64,14 +69,21 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
                 ToDoDialogFragment.TAG
             )
         }
+
+        binding.logoutBtn.setOnClickListener {
+            Log.d(TAG, "Signing out")
+            FirebaseAuth.getInstance().signOut()
+
+            navController.navigate(R.id.action_homeFragment_to_signInFragment)
+        }
     }
 
-    private fun getTaskFromFirebase() {
-        Log.d(TAG, "Obteniendo tareas desde Firebase")
+    private fun getTasksFromFirebase() {
+        Log.d(TAG, "Getting tasks from Firebase")
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 toDoItemList.clear()
-                Log.d(TAG, "Número de tareas: ${snapshot.childrenCount}")
+                Log.d(TAG, "Number of tasks: ${snapshot.childrenCount}")
                 for (taskSnapshot in snapshot.children) {
                     val todoTask =
                         taskSnapshot.key?.let { ToDoData(it, taskSnapshot.value.toString()) }
@@ -80,29 +92,27 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
                         toDoItemList.add(todoTask)
                     }
                 }
-                Log.d(TAG, "Tareas obtenidas: $toDoItemList")
+                Log.d(TAG, "Tasks retrieved: $toDoItemList")
                 taskAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Error al obtener tareas: ${error.message}")
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Error getting tasks: ${error.message}")
             }
         })
     }
 
     private fun init() {
-        Log.d(TAG, "Inicializando componentes")
+        Log.d(TAG, "Initializing components")
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         if (currentUser != null) {
             authId = currentUser.uid
-            Log.d(TAG, "Usuario autenticado: $authId")
+            Log.d(TAG, "Authenticated user: $authId")
         } else {
-            Log.e(TAG, "No hay usuario autenticado")
+            Log.e(TAG, "No authenticated user")
         }
 
-        // Configurar la URL de la instancia de Firebase Realtime Database
         val databaseUrl = "https://to-do-app-fdbdb-default-rtdb.firebaseio.com/"
         database = Firebase.database(databaseUrl).reference.child("Tasks").child(authId)
 
@@ -119,11 +129,11 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         database.push().setValue(todoTask)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Log.d(TAG, "Tarea guardada: $todoTask")
+                    Log.d(TAG, "Task saved: $todoTask")
                     Toast.makeText(context, "Task Added Successfully", Toast.LENGTH_SHORT).show()
                     todoEdit.text = null
                 } else {
-                    Log.e(TAG, "Error al guardar tarea: ${it.exception}")
+                    Log.e(TAG, "Error saving task: ${it.exception}")
                     Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
