@@ -57,4 +57,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="143dp"
+        android:layout_height="49dp"
+        android:background="@color/black"
+        android:backgroundTint="@color/black"
+        android:backgroundTintMode="src_in"
+        android:rotationX="0"
+        android:text="Start"
+        android:textColorLink="#FFF"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="449dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
