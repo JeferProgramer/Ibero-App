@@ -113,8 +113,8 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             Log.e(TAG, "No authenticated user")
         }
 
-        val databaseUrl = "https://to-do-app-fdbdb-default-rtdb.firebaseio.com/"
-        database = Firebase.database(databaseUrl).reference.child("Tasks").child(authId)
+        database = Firebase.database.reference.child("Tasks")
+            .child(authId)
 
         binding.mainRecyclerView.setHasFixedSize(true)
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)

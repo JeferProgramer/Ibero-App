@@ -1,23 +1,19 @@
 {
   "project_info": {
-    "project_number": "108293983835",
-    "project_id": "kotlin-todo-33c15",
-    "storage_bucket": "kotlin-todo-33c15.appspot.com"
+    "project_number": "518943158140",
+    "firebase_url": "https://to-do-app-fdbdb-default-rtdb.firebaseio.com",
+    "project_id": "to-do-app-fdbdb",
+    "storage_bucket": "to-do-app-fdbdb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:108293983835:android:88c1b7fc5466a74377397e",
+        "mobilesdk_app_id": "1:518943158140:android:a0d4736c212b9679963ef9",
         "android_client_info": {
           "package_name": "com.example.kotlintodopractice"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "108293983835-opoofr0a9ht9pep6l6og61pie4s76hgi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyBQmokbgRzTl-ZtRbl4g4B63jNUtXc3_r0"
@@ -25,12 +21,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "108293983835-opoofr0a9ht9pep6l6og61pie4s76hgi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
